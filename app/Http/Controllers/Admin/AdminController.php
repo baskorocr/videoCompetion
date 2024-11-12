@@ -8,7 +8,7 @@ use App\Models\Karya;
 
 class AdminController extends Controller
 {
-    
+
     public function index()
     {
         $karyas = Karya::all();
@@ -35,7 +35,21 @@ class AdminController extends Controller
 
     public function show(Karya $karya)
     {
-        return view('admin.show', compact('karya'));
+
+        $youtube = $this->getYouTubeVideoId($karya->link);
+        return view('users.karya', compact('karya', 'youtube'));
+    }
+
+    private function getYouTubeVideoId($url)
+    {
+        parse_str(parse_url($url, PHP_URL_QUERY), $query);
+        $videoId = $query['v'] ?? null;
+
+        if ($videoId) {
+            return "https://www.youtube.com/embed/" . $videoId;
+        }
+
+        return null;
     }
 
     public function edit(Karya $karya)

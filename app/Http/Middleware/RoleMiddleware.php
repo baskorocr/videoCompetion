@@ -16,23 +16,20 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, $role): Response
     {
-
+        // Check if the user is authenticated
         if (!Auth::check()) {
-            // Redirect to login page if not logged in
-            return redirect()->route('login'); // Assuming 'login' is the name of your login route
+            return redirect()->route('login'); // Redirect to login if not authenticated
         }
 
         $user = Auth::user();
 
-        // Check the user's role
-        if ($user->role == $role) {
-            return $next($request);
+        // Check if the user has the required role
+        if ($user->role === $role) {
+            return $next($request); // Allow the request to proceed
         }
 
-        // Redirect back if the user doesn't have the required role
-        return redirect()->back();
-
-
-        // Redirect if not authorized
+        // Redirect with a message if the user doesn't have the required role
+        return redirect()->route('unauthorized') // You can define an 'unauthorized' route
+            ->with('error', 'You do not have permission to access this page.');
     }
 }

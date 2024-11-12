@@ -25,21 +25,22 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::group(['middleware' => ['role:users'], 'prefix' => 'users'], function () {
+Route::group(['middleware' => ['auth', 'role:users'], 'prefix' => 'users'], function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('users.dashboard');
-   
+    Route::get('karyas/{karya}', [AdminController::class, 'show'])->name('karyas.show');
+
 
 });
 Route::group(['middleware' => ['role:admin'], 'prefix' => 'admin'], function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
-  
-        Route::get('karyas/create', [AdminController::class, 'create'])->name('karyas.create');
-        Route::post('karyas', [AdminController::class, 'store'])->name('karyas.store');
-        Route::get('karyas/{karya}', [AdminController::class, 'show'])->name('karyas.show');
-        Route::get('karyas/{karya}/edit', [AdminController::class, 'edit'])->name('karyas.edit');
-        Route::put('karyas/{karya}', [AdminController::class, 'update'])->name('karyas.update');
-        Route::delete('karyas/{karya}', [AdminController::class, 'destroy'])->name('karyas.destroy');
-   
+
+    Route::get('karyas/create', [AdminController::class, 'create'])->name('karyas.create');
+    Route::post('karyas', [AdminController::class, 'store'])->name('karyas.store');
+
+    Route::get('karyas/{karya}/edit', [AdminController::class, 'edit'])->name('karyas.edit');
+    Route::put('karyas/{karya}', [AdminController::class, 'update'])->name('karyas.update');
+    Route::delete('karyas/{karya}', [AdminController::class, 'destroy'])->name('karyas.destroy');
+
 
 });
 
