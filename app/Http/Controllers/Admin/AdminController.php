@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Karya;
-
+use App\Models\vote;
+use App\services\TripayServices;
 class AdminController extends Controller
 {
 
@@ -28,6 +29,8 @@ class AdminController extends Controller
             'link' => 'required|url',
         ]);
 
+
+
         Karya::create($request->all());
 
         return redirect()->route('admin.index')->with('success', 'Karya created successfully.');
@@ -35,9 +38,14 @@ class AdminController extends Controller
 
     public function show(Karya $karya)
     {
+        $tripay = new TripayServices();
+        $channels = $tripay->channel();
 
+
+        $like = vote::where('idKarya', $karya->id)->where('idNPK', auth()->user()->npk)->count();
+        $count = vote::all()->count();
         $youtube = $this->getYouTubeVideoId($karya->link);
-        return view('users.karya', compact('karya', 'youtube'));
+        return view('users.karya', compact('karya', 'youtube', 'like', 'count', 'channels'));
     }
 
     private function getYouTubeVideoId($url)

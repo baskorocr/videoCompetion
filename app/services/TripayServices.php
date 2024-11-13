@@ -12,11 +12,12 @@ class TripayServices
         try {
             $apiKey = config('tripay.api_key');
 
+
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
                 CURLOPT_FRESH_CONNECT => true,
-                CURLOPT_URL => 'https://tripay.co.id/api/merchant/payment-channel',
+                CURLOPT_URL => 'https://tripay.co.id/api-sandbox/merchant/payment-channel',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_HEADER => false,
                 CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $apiKey],
@@ -25,9 +26,10 @@ class TripayServices
             ));
 
             $response = curl_exec($curl);
+
             $error = curl_error($curl);
-       
-     
+
+
 
             curl_close($curl);
 
@@ -36,19 +38,21 @@ class TripayServices
             }
 
             $response = json_decode($response)->data;
-        
+
             return $response ? $response : 'No data found';
         } catch (Exception $e) {
             // Log the error or handle it in a way that suits your application
+
 
             return 'Error: ' . $e->getMessage();
         }
     }
 
-    public function requestTransaction($method, $karya, $donation)
+    public function requestTransaction($method, $karya, $donation, $name, $email)
     {
+
         try {
-            $user = Str::uuid();
+
 
             $apiKey = config('tripay.api_key');
             $privateKey = config('tripay.private_key');
@@ -59,8 +63,8 @@ class TripayServices
                 'method' => $method,
                 'merchant_ref' => $merchantRef,
                 'amount' => $donation,
-                'customer_name' => "donation",
-                'customer_email' => $user . '@gmail.com',
+                'customer_name' => $name,
+                'customer_email' => $email,
 
                 'order_items' => [
                     [
@@ -70,7 +74,7 @@ class TripayServices
                     ],
                 ],
 
-                'return_url' => 'http://ddp.dharmap.com/batik/redirect/success',
+                // 'return_url' => 'http://ddp.dharmap.com/batik/redirect/success',
                 'expired_time' => (time() + (24 * 60 * 60)), // 24 hours
                 'signature' => hash_hmac('sha256', $merchantCode . $merchantRef . $donation, $privateKey)
             ];
@@ -79,7 +83,7 @@ class TripayServices
 
             curl_setopt_array($curl, [
                 CURLOPT_FRESH_CONNECT => true,
-                CURLOPT_URL => 'https://tripay.co.id/api/transaction/create',
+                CURLOPT_URL => 'https://tripay.co.id/api-sandbox/transaction/create',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_HEADER => false,
                 CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $apiKey],
@@ -91,6 +95,7 @@ class TripayServices
 
             $response = curl_exec($curl);
             $error = curl_error($curl);
+
 
             curl_close($curl);
 
@@ -121,7 +126,7 @@ class TripayServices
 
             curl_setopt_array($curl, [
                 CURLOPT_FRESH_CONNECT => true,
-                CURLOPT_URL => 'https://tripay.co.id/api/transaction/detail?' . http_build_query($payload),
+                CURLOPT_URL => 'https://tripay.co.id/api-sandbox/transaction/detail?' . http_build_query($payload),
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_HEADER => false,
                 CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $apiKey],

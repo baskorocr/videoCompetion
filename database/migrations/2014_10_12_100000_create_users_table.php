@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('password');
             $table->string('role'); // Add status field
 
-          
+
             $table->timestamps();
         });
     }

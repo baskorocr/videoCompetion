@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KaryaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\User\UserController;
 
 /*
@@ -28,6 +29,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => ['auth', 'role:users'], 'prefix' => 'users'], function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('users.dashboard');
     Route::get('karyas/{karya}', [AdminController::class, 'show'])->name('karyas.show');
+    Route::get('/like/{id}', [KaryaController::class, 'like'])->name('users.like');
+    Route::get('/transaction', [TransactionController::class, 'index'])->name('users.transaction');
+    Route::get('/transaction/{id}', [TransactionController::class, 'show'])->name('users.transactionShow');
+    Route::post('/storeTransaction', [TransactionController::class, 'store'])->name('users.transactionStore');
+
 
 
 });
