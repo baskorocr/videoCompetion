@@ -49,5 +49,11 @@ class TransactionController extends Controller
         ]);
 
 
+
+        $reference = $transactionRequest->data->reference;
+
+        return redirect()->to('/users/transaction/' . $reference);
+
+
     }
 }

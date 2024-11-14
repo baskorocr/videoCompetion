@@ -13,7 +13,17 @@ class Karya extends Model
         'title',
         'description',
         'link',
-        ];
+    ];
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'idKarya');  // Specify the correct foreign key
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(vote::class, 'idKarya');  // Assuming foreign key is 'idKarya'
+    }
 
 
 }

@@ -16,22 +16,19 @@
                         </div>
 
                         <!-- Like and Donate Buttons (Positioned Above Text) -->
+
+                        <!-- Description Text (Below the buttons) -->
+                        <div
+                            class="mt-6 text-gray-600 text-lg grid grid-cols-1 md:grid-cols-[150px,1fr] gap-4 text-justify">
+                            <p class="font-semibold">Deskripsi:</p>
+                            <p class="break-words">
+                                dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+                            </p>
+                        </div>
+
                         <div class="mt-6 flex justify-center items-center space-x-4">
                             <!-- Like Button -->
-                            <div class="flex items-center">
 
-
-                                <a href="{{ route('users.like', $karya->id) }}">
-                                    <button
-                                        class="flex items-center px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-600 focus:outline-none">
-                                        <i class="fas fa-thumbs-up mr-2"></i> <!-- Like Icon -->
-                                        <span>{{ $count }}</span> <!-- Number of Likes -->
-                                    </button>
-                                </a>
-
-
-
-                            </div>
 
                             <!-- Donate Button -->
                             <!-- Donate Button -->
@@ -45,21 +42,13 @@
                             </div>
                         </div>
 
-                        <!-- Description Text (Below the buttons) -->
-                        <div
-                            class="mt-6 text-gray-600 text-lg grid grid-cols-1 md:grid-cols-[150px,1fr] gap-4 text-justify">
-                            <p class="font-semibold">Deskripsi:</p>
-                            <p class="break-words">
-                                dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-                            </p>
-                        </div>
 
                     </div>
                 </div>
             </div>
         </div>
         <div id="donateModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mx-4 sm:w-2/3 md:w-1/2 lg:w-1/3">
                 <h2 class="text-2xl font-semibold mb-4">Donate</h2>
                 <form id="donateForm" action="{{ route('users.transactionStore') }}" method="POST">
                     @csrf
@@ -90,6 +79,7 @@
                 </form>
             </div>
         </div>
+
     </x-slot>
 
 

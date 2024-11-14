@@ -14,5 +14,6 @@ class vote extends Model
     protected $fillable = [
         'idNPK',
         'idKarya',
+        'temp'
     ];
 }

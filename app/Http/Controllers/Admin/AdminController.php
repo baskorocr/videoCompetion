@@ -13,6 +13,7 @@ class AdminController extends Controller
     public function index()
     {
         $karyas = Karya::all();
+
         return view('admin.index', compact('karyas'));
     }
 

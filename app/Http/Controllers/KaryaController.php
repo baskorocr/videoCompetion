@@ -13,20 +13,28 @@ class KaryaController extends Controller
         $userNPK = auth()->user()->npk;
 
         // Check if there are any existing votes for the user
-        $count = vote::where('idNPK', $userNPK)->count();
+        $data = vote::where('idNPK', $userNPK)->first();
 
-        if ($count == 0) {
-            // Create a new vote if none exists
+
+        if (is_null($data)) {
             vote::create([
                 'idNPK' => $userNPK,
-                'idKarya' => $id
+                'idKarya' => $id,
+                'temp' => $id
             ]);
-        } else {
-            // Delete existing votes for this user
-            vote::where('idNPK', $userNPK)->delete();
+        } elseif ($data->count() == 1 && $id != $data->temp) {
+            $data->delete();
+            vote::create([
+                'idNPK' => $userNPK,
+                'idKarya' => $id,
+                'temp' => $id,
+            ]);
+        } elseif ($data->count() == 1 && $id == $data->temp) {
+            $data->delete();
+
         }
 
-        return redirect()->back();
+        return redirect()->route('home');
 
     }
 

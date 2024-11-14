@@ -16,7 +16,8 @@ class transaction extends Model
         'idNPK',
         'total_amount',
         'reference',
-        'merchant_reference'
+        'merchant_reference',
+        'status'
     ];
 
 }
