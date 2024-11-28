@@ -21,7 +21,7 @@
                         <div
                             class="mt-6 text-gray-600 text-lg grid grid-cols-1 md:grid-cols-[150px,1fr] gap-4 text-justify">
                             <p class="font-semibold">Deskripsi:</p>
-                            <p class="break-words">
+                            <p class="break-words" style="word-break: break-word;">
                                 {{ $karya->description }}
                             </p>
                         </div>
